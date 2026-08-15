@@ -1,0 +1,19 @@
+{
+  "name": "dsh-studio",
+  "version": "1.0.0",
+  "description": "DSH Studio — native desktop window for the dsh web agent",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "icon": "tauri icon assets/icon.png",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"
+  }
+}

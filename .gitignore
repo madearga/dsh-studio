@@ -1,0 +1,9 @@
+node_modules/
+resources/backend/
+src-tauri/target/
+src-tauri/gen/schemas/
+.rustup/
+.cargo/
+.npm-cache/
+.npm-logs/
+.DS_Store
