@@ -11,8 +11,17 @@ stage=resources/backend
 mkdir -p "$stage"
 export npm_config_cache="$PWD/.npm-cache"
 
-cp "$(node -p 'process.execPath')" "$stage/node"
-codesign --force --sign - "$stage/node" 2>/dev/null || true
+# Platform bits: ditto on macOS, cp -r elsewhere; .exe suffix on Windows.
+case "$(uname -s)" in
+  Darwin*) EXE="";       COPY="ditto" ;;
+  MINGW*|MSYS*|CYGWIN*) EXE=".exe";  COPY="cp -R" ;;
+  *) EXE="";             COPY="cp -R" ;;
+esac
+
+cp "$(node -p 'process.execPath')" "$stage/node$EXE"
+if command -v codesign >/dev/null 2>&1; then
+  codesign --force --sign - "$stage/node$EXE" 2>/dev/null || true
+fi
 
 src="${DSH_SOURCE:-}"
 [ -z "$src" ] && for d in "$HOME"/.npm/_npx/*/node_modules; do
@@ -21,11 +30,11 @@ done
 
 if [ -n "$src" ]; then
   echo "staging dsh from $src"
-  ditto "$src" "$stage/node_modules"
+  $COPY "$src" "$stage/node_modules"
 else
   echo "installing @deepseek-ai/dsh from npm"
   (cd "$stage" && npm init -y >/dev/null && npm i @deepseek-ai/dsh)
 fi
 
-"$stage/node" "$stage/node_modules/@deepseek-ai/dsh/lib/bin.js" --version
+"$stage/node$EXE" "$stage/node_modules/@deepseek-ai/dsh/lib/bin.js" --version
 du -sh "$stage"

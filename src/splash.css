@@ -18,12 +18,12 @@ main { text-align: center; }
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: #3ddc97;
+  color: #4D6BFE;
 }
 .bar {
   width: 22px;
   height: 46px;
-  background: #3ddc97;
+  background: #4D6BFE;
   display: inline-block;
   animation: pulse 1s steps(2, jump-none) infinite;
 }
@@ -51,9 +51,9 @@ button {
   font-size: 12.5px;
   padding: 8px 18px;
   border-radius: 6px;
-  border: 1px solid #3ddc97;
+  border: 1px solid #4D6BFE;
   background: transparent;
-  color: #3ddc97;
+  color: #4D6BFE;
   cursor: pointer;
 }
 button.ghost {
