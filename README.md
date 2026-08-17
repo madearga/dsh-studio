@@ -33,15 +33,27 @@ comforts the browser tab doesn't give you.
 
 ## Download
 
-Grab the latest `.dmg` / `.app` from
-[Releases](https://github.com/madearga/dsh-studio/releases)
-(builds are currently macOS arm64; see below to build for other platforms).
+Grab a ready-to-run installer from the
+[latest release](https://github.com/madearga/dsh-studio/releases/latest):
 
-> **Note:** the app is not signed with an Apple Developer certificate. On first
-> launch macOS may block it — right-click → Open, or clear the quarantine flag:
+| Platform | Download |
+|---|---|
+| macOS Apple Silicon | `.dmg` (`aarch64`) |
+| Windows x64 | `.exe` (NSIS installer) |
+
+The release installers already include `node` and the dsh engine. End users do
+**not** need Node.js, npm, Rust, or a separate dsh installation. The Git
+repository intentionally does not contain the generated `node_modules` or
+`resources/backend` directory, keeping source clones small.
+
+> **macOS:** the app is not signed with an Apple Developer certificate. On first
+> launch, right-click → **Open**, or clear the quarantine flag:
 > ```sh
 > xattr -c "/Applications/DSH Studio.app"
 > ```
+
+> **Windows:** SmartScreen may show an unsigned-app warning. Select **More
+> info → Run anyway** when installing a release downloaded from GitHub.
 
 ## Build from source
 
@@ -55,6 +67,16 @@ npx tauri build --bundles app
 
 The staged engine comes from your local npx cache if one exists, otherwise
 from npm (`@deepseek-ai/dsh`, pinned in `resources/backend`).
+
+To build the Windows installer locally on Windows:
+
+```sh
+npm install
+bash scripts/stage-backend.sh
+npx tauri build --bundles nsis
+```
+
+GitHub Actions also builds the Windows installer automatically for `v*` tags.
 
 **Dev mode** uses `dsh` from your `PATH` instead of the bundle:
 
